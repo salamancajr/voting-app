@@ -18,7 +18,7 @@ const {yourPollsRouter} = require("./routes/yourPollsRouter");
 const {allPollsRouter} = require("./routes/allPollsRouter");
 
 
-mongoose.connect("mongodb://localhost:27017/VoteApp", (e) => {
+mongoose.connect(process.env.MONGODB_URI, (e) => {
     if (!e)
    ('Now connected to mongo server');
 
