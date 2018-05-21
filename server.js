@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const port = process.env.PORT;
 var app = express();
 const authenticate = require("./middleware/authenticate")
-
+mongoose.Promise = global.Promise;
 
 const {loginRouter} = require("./routes/loginRouter");
 const {newPollRouter} = require("./routes/newpollRouter");
