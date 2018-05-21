@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.sass">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+
+</head>
+
+<body>
+    <div id="main">
+        <p id="mainText">{{paragraph}}</p>
+        <div style="text-align:center; margin-top:5%">
+         
+        {{#if two}} {{> two}} {{/if}}    
+        </div>
+        {{#if pie}} {{> pie}} {{/if}} 
+        {{#if login}} {{> login}} {{/if}}
+        {{#if quessubmit}} {{> quessubmit}} {{/if}} 
+        {{#if graph}} {{> graph}} {{/if}}         
+       
+        {{{poll}}}
+        {{#if radio}}{{>radio}}{{/if}} 
+        <br>
+        <br>
+        {{#if share}}{{>share}}{{/if}}
+
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+</body>
+{{#unless home}}
+<a href="/logout"><i id="exit"class="fas fa-door-open"></i></a>
+{{/unless}}
+</html>

@@ -1,0 +1,16 @@
+<form action="/vote/{{path}}"enctype="application/x-www-form-urlencoded"method="post">
+    <div style="display:none" id="test">{{ans}}</div>
+    <input id="submit" type="submit" class="waves-effect waves-light btn">
+</form>
+<script>
+    var ans = document.getElementById("test").innerHTML;
+    ans = ans.split(",");
+    var submit = document.getElementById("submit");
+    for (var i = 0; i < ans.length; i++) {
+        var crad = document.createElement("p");
+        crad.style = "margin:auto;text-align:left; width:90%"
+        crad.innerHTML = '<label><input class="with-gap" name="answer" value="'+i+'"type="radio" /><span>' + ans[i] +
+            '</span></label>';
+        submit.insertAdjacentElement("beforebegin", crad);
+    }
+</script>

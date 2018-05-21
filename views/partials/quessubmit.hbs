@@ -1,0 +1,26 @@
+<div id="div" class="row">
+    <form id="form" method={{method}} action={{action}} enctype="application/x-www-form-urlencoded" class="col s12">
+        <input type="submit" class="waves-effect waves-light btn" />
+        <div id="wrapper" style="height: 220px;position:relative;overflow-y:scroll;">
+            {{#if ques}} {{> ques}} {{/if}}
+            <div class="input-field col s12">
+                <input id="answer" name="answer" type="text" class="validate">
+                <label for="answer">Answer</label>
+            </div>
+        </div>
+    </form>
+    <button onclick="myFunction()" class="waves-effect waves-light btn">Add Answer</button>
+
+</div>
+<script>
+    //var num = 3;
+
+    var myFunction = () => {
+        var ans = document.getElementById("answer")
+        var ansc = ans.cloneNode(true)
+        var wrapper = document.getElementById("wrapper");
+        wrapper.insertAdjacentElement("beforeend", ansc);
+        var div = document.getElementById("wrapper")
+        div.scrollTop = div.scrollHeight - div.clientHeight;
+    }
+</script>

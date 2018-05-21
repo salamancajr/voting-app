@@ -1,0 +1,74 @@
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<a href={{link1}} class="waves-effect waves-light btn">{{button1}}</a>
+{{#if button2}}<a href={{link2}} class="waves-effect waves-light btn">{{button2}}</a> {{/if}}
+<a href={{link3}} class="waves-effect waves-light btn">{{button3}}</a>
+{{#if button4}}<a href={{link4}} class="waves-effect waves-light btn">{{button4}}</a>{{/if}}<br>
+<svg style="margin-top:3%" width="150" height="150"></svg>
+<div style="display:none"id="test">{{ans}}</div>
+<div style="font-weight:bold"id ="info">{{tooltip}}</div>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+
+<script>
+    var myNum = [{{num}}];
+      
+    var width = 150;
+    var height = 150;
+ 
+var ans = document.getElementById("test").innerHTML
+ ans = ans.split(",")
+ 
+
+    var radius = width / 2;
+
+
+    var colors = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+    
+ 
+
+
+
+    function render(da) {
+
+        var pie = d3.pie()
+            .sort(null)
+            .value(d => d);
+
+        var path = d3.arc()
+            .outerRadius(radius - 10)
+            .innerRadius(0);
+
+        var label = d3.arc()
+            .outerRadius(radius-40)
+            .innerRadius(radius-40)
+
+        var arc = d3.select("svg")
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+            .selectAll(".arc")
+            .data(pie(da))
+            .enter().append("g")
+            .attr("stroke", "black")
+            .attr("stroke-width", "3px")
+            arc.append("path")
+            .attr("d", path)
+            .attr("fill", (d, i) => colors(i))
+            .style("cursor", "pointer")
+          /*  arc.append("text")
+            .attr("transform", (d)=>{return "translate("+label.centroid(d)+")";})
+            .attr("dy", "0.35em")
+            .text(function(d, i) { return ans[i]+"-"+da[i]; })
+            .attr("stroke-width", "1px")
+            .attr("stroke", "red")*/
+            .on("mouseover", function(d, i){
+                d3.select("#info")
+                .html(ans[i]+": "+da[i]+" votes").transition()
+                .style("font-weight", "bold")
+                
+            }).on("mouseout", function(){
+                d3.select("#info")
+                .html("Hover over the pie chart to find out more").transition()
+            })
+             
+    }
+    render(myNum)
+</script>
