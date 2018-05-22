@@ -75,7 +75,8 @@ allPollsRouter.get("/allpolls/:id", (req, res) => {
                 tooltip: "No votes yet for "+req.params.id, 
                 graph: true,
                 share:true,
-                shareP:req.params.id
+                shareP:req.params.id,
+                site:req.headers.referer
            })
 
 
