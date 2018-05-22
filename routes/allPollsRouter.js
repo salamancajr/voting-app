@@ -76,7 +76,7 @@ allPollsRouter.get("/allpolls/:id", (req, res) => {
                 graph: true,
                 share:true,
                 shareP:req.params.id,
-                site:req.headers.referer
+                site:"https://evening-journey-29197.herokuapp.com/allpolls/"+sup
            })
 
 
