@@ -6,8 +6,6 @@ const {authenticate} = require("./../middleware/authenticate");
 
 allPollsRouter.get("/allpolls", (req, res) => {
      
-    
- 
     Poll.find({}).then((polls) => {
         
         if(req.cookies["x-auth"]){
