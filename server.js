@@ -91,6 +91,7 @@ app.post("/signup", (req, res) => {
         
          res.render("project.hbs", {
             paragraph: `Welcome ${email}. What would you like to do?`,
+            three:true,
             button1: "New poll",
             button2: "See your polls",
             button3: "See all polls",

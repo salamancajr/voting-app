@@ -53,6 +53,7 @@ var email;
             button2: "See your polls",
             link1: "/newpoll",
             link2: "/yourpolls",
+            all:true,
             pie: true,
             two: true
         })
