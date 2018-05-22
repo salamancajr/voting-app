@@ -3,8 +3,11 @@ const voteRouter = express.Router();
 const {User} = require("./../models/users");
 const {Poll} = require("./../models/polls");
 const {authenticate} = require("./../middleware/authenticate");
+const {filterVoters} = require("./../middleware/filterVoters");
 
-voteRouter.get("/vote/:id", authenticate, (req, res) => {
+
+voteRouter.get("/vote/:id", authenticate, filterVoters, (req, res) => {
+    sup2 = req.params.id.replace(/\s/g, "%20")
 
  
     Poll.find({
@@ -16,7 +19,7 @@ voteRouter.get("/vote/:id", authenticate, (req, res) => {
             paragraph: req.params.id,
             radio: true,
             ans,
-            path: req.params.id,
+            path: "/vote/"+sup2,
         })
     }, (e) => {
         console.log("could not find poll");
@@ -24,6 +27,7 @@ voteRouter.get("/vote/:id", authenticate, (req, res) => {
 })
 
 voteRouter.post("/vote/:id", authenticate, (req, res) => {
+
 
     Poll.findOneAndUpdate({
         question: req.params.id

@@ -19,7 +19,8 @@ const {allPollsRouter} = require("./routes/allPollsRouter");
 
 
 mongoose.connect(process.env.MONGODB_URI, (e) => {
-    if (!e)
+   // mongoose.connect("mongodb://localhost:27017/PollsApp", (e) => {   
+         if (!e)
    ('Now connected to mongo server');
 
 }).catch((e) => {
@@ -28,6 +29,14 @@ mongoose.connect(process.env.MONGODB_URI, (e) => {
 });
 
 hbs.registerPartials(__dirname + "/views/partials");
+
+hbs.registerHelper("helper", (text)=>{
+    console.log(text);
+    return text.replace(/\s/g, "%2520")
+    
+    
+    
+})
 app.set("view engine", "hbs");
 
 app.use(bodyParser.urlencoded({
@@ -44,6 +53,7 @@ app.use("/", yourPollsRouter);
 
 
 app.get("/", (req, res) => {
+ 
     if(req.cookies["x-auth"]){
         res.redirect("/account")
     }
