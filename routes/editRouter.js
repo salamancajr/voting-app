@@ -41,7 +41,8 @@ editRouter.post("/edit/:id", authenticate, (req, res) => {
             link2: "/yourpolls",
             pie:true,
             share:true,
-            shareP:req.params.id.replace(" ", "%2520")
+            shareP:req.params.id,
+            site:req.params.id.replace(/\s/g, "%2520")
 
         })
     }, (e) => {
