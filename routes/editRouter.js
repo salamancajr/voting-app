@@ -27,8 +27,6 @@ editRouter.get("/edit/:id", authenticate, (req, res) => {
 })
 
 editRouter.post("/edit/:id", authenticate, (req, res) => {
-var link = req.params.id,
-link = link.replace(" ", "%20")
  
     Poll.findOneAndUpdate({question: req.params.id}, {$addToSet: {["answers.0.answer"]: req.body.answer}
     }).then((poll) => {
@@ -43,7 +41,7 @@ link = link.replace(" ", "%20")
             link2: "/yourpolls",
             pie:true,
             share:true,
-            shareP:link
+            shareP:req.params.id.replace(" ", "%2520")
 
         })
     }, (e) => {
