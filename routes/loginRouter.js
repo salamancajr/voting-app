@@ -1,13 +1,30 @@
 const express = require("express");
 const loginRouter = express.Router();
+var flash = require('connect-flash');
 const {User} = require("./../models/users")
 const {Poll} = require("./../models/polls")
+var session = require("express-session")
+
 const {authenticate} = require("./../middleware/authenticate");
+loginRouter.use(flash());
+loginRouter.use(session({ cookie: { maxAge: 60000 }, 
+    secret: 'woot',
+    resave: false, 
+    saveUninitialized: false}));
+
 
 loginRouter.get("/login", (req, res) => {
-
+    var message =req.flash("eLogin")
+    var paragraph = "Enter your user name and password";
+ console.log(typeof message[0]);
+ 
+    if(typeof message[0]== "string")
+    {var paragraph = message[0]; }
+ else{
+    var paragraph = "Enter your user name and password";
+ }
     res.render("project.hbs", {
-        paragraph: "Enter your user name and password",
+        paragraph,
         login: true,
         one: true,
         method: "post",
@@ -57,8 +74,11 @@ var email;
             pie: true,
             two: true
         })
-    }, (e) => {
-        console.log(e.message);
+    
+        
+    }).catch((err)=>{
+        req.flash("eLogin", "Username or password is not correct.");
+        res.redirect("/login");
     })
 })
 
@@ -87,7 +107,8 @@ loginRouter.get("/delete/:id", authenticate, (req, res) => {
 })
 
 loginRouter.get("/logout", authenticate, (req, res)=>{
-    res.clearCookie("x-auth");   
+    res.clearCookie("x-auth");  
+     
     var token = req.token;
     User.findOneAndUpdate({email:req.user.email}, {$pull:{tokens:{token}}}).then((user)=>{
 

@@ -6,7 +6,6 @@ const {authenticate} = require("./../middleware/authenticate");
 const {filterVoters} = require("./../middleware/filterVoters");
 
 allPollsRouter.get("/allpolls", (req, res) => {
-    console.log(req.cookies["x-auth"]);
 
     Poll.find({}).then((polls) => {
 
@@ -14,12 +13,14 @@ allPollsRouter.get("/allpolls", (req, res) => {
             var loggedOut = false,
                 button1 = "Home",
                 link1 = "/account",
-                link = "polls"
+                link = "polls",
+                home = false
         } else {
             var loggedOut = true,
                 link1 = "/",
                 button1 = "Sign Up/Log In",
-                link = "allpolls"
+                link = "allpolls",
+                home = true
         }
 
         var a = [];
@@ -35,7 +36,8 @@ allPollsRouter.get("/allpolls", (req, res) => {
             link1,
             link2: "/yourpolls",
             poll: "<ul>" + a + "</ul>",
-            loggedOut
+            loggedOut,
+            home
 
         })
     })
@@ -46,7 +48,6 @@ allPollsRouter.get("/allpolls/:id", (req, res) => {
     var sup = req.params.id;
     sup = sup.replace(/\s/g, "%2520")
     sup2 = req.params.id.replace(/\s/g, "%20")
-    console.log(sup);
 
     Poll.findOne({
         question: req.params.id
@@ -55,7 +56,6 @@ allPollsRouter.get("/allpolls/:id", (req, res) => {
 
         var num = poll.answers[0].tally
         var ans = poll.answers[0].answer
-console.log("test:", poll.voters.indexOf(req.headers["x-forwarded-for"])>-1);
 
         if(poll.voters.indexOf(req.headers["x-forwarded-for"])>-1){
             var button2 =false,
@@ -77,7 +77,8 @@ console.log("test:", poll.voters.indexOf(req.headers["x-forwarded-for"])>-1);
                 graph: true,
                 share: true,
                 shareP: req.params.id,
-                site: sup
+                site: sup,
+                home:true
             })
         } else {
 
@@ -93,7 +94,8 @@ console.log("test:", poll.voters.indexOf(req.headers["x-forwarded-for"])>-1);
                 ans: ans,
                 share: true,
                 shareP: req.params.id,
-                site: sup
+                site: sup,
+                home:true
             })
         }
     }, (e) => {
@@ -117,6 +119,7 @@ allPollsRouter.get("/allpoll/:id", filterVoters, (req, res) => {
             radio: true,
             ans,
             path: "/allpoll/"+sup2,
+            home:true
         })
     }, (e) => {
         console.log("could not find poll");
@@ -138,17 +141,23 @@ allPollsRouter.post("/allpoll/:id", (req, res) => {
     }).then((poll) => {
 
  
+            var button1= "Home",
+            button2= "See all polls",
+            link1= "/",
+            link2= "/allpolls"; 
+        
         var ans = poll.answers[0].answer;
         res.render("project.hbs", {
             paragraph: "Your vote was submitted!",
             two: true,
-            button1: "Home",
-            button2: "See your polls",
-            link1: "/account",
-            link2: "/yourpolls",
+            button1,
+            button2,
+            link1,
+            link2,
             pie:true,
             share:true,
-            shareP:req.params.id
+            shareP:req.params.id,
+            home:true
         })
     })
     }, (e) => {

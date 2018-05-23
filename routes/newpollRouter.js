@@ -20,17 +20,21 @@ newPollRouter.get("/newpoll", authenticate, (req, res) => {
 
 newPollRouter.post("/newpoll", authenticate, (req, res) => {
 
-    var b = [];
-    var a = req.body.answer.forEach((ans) => {
-        b.push(0)
+    var tally = [];
+    var answer = [];
+    req.body.answer.forEach((ans) => {
+        answer.push(ans.replace(/[^A-Z, a-z, 0-9]/g, ""))
+        tally.push(0)
     })
 
+
+var question = req.body.question.replace(/[^A-Z, a-z, 0-9]/g, "")
     var poll = new Poll({
 
-        question: req.body.question,
+        question,
         answers: {
-            answer: req.body.answer,
-            tally: b
+            answer,
+            tally
              
         },
         _creator:req.user._id
@@ -48,6 +52,7 @@ newPollRouter.post("/newpoll", authenticate, (req, res) => {
             pie:true
         })
         
+    }, (e)=>{console.log('not valid input');
     })
 
 })

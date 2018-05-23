@@ -37,7 +37,9 @@ yourPollsRouter.get("/yourpolls", authenticate, (req, res) => {
 
 yourPollsRouter.get("/polls/:id", authenticate, (req, res) => {
     var sup = req.params.id
-    sup = sup.replace(/\s/g, "%20")
+     
+    sup = sup.replace(/\s/g, "%2520");
+    sup2 = req.params.id.replace(/\s/g, "%20")
     Poll.findOne({
         question: req.params.id
     }).then((poll) => {
@@ -48,9 +50,9 @@ yourPollsRouter.get("/polls/:id", authenticate, (req, res) => {
         
         if(req.user._id.equals(poll._creator)){
             var button2 = "Add Answer";
-            var link2 = "/edit/" + sup;
+            var link2 = "/edit/" + sup2;
             var button4 = "Delete";
-            var link4 = "/delete/" + sup;
+            var link4 = "/delete/" + sup2;
 
         }
         else{
@@ -71,7 +73,7 @@ yourPollsRouter.get("/polls/:id", authenticate, (req, res) => {
             var paragraph= req.params.id +": Your vote is in the ballot box!";
         }
         else{
-             var link3 = "/vote/" + sup; 
+             var link3 = "/vote/" + sup2; 
             var button3="Vote";
             var paragraph= req.params.id
         }
@@ -91,7 +93,8 @@ yourPollsRouter.get("/polls/:id", authenticate, (req, res) => {
                 tooltip: "No votes yet for "+req.params.id, 
                 graph: true,
                 share:true,
-                shareP:req.params.id
+                shareP:req.params.id,
+                site:sup
            })
 
 
@@ -113,11 +116,12 @@ yourPollsRouter.get("/polls/:id", authenticate, (req, res) => {
                 num,
                 ans: ans,
                 share:true,
-                shareP:req.params.id
+                shareP:req.params.id,
+                site: sup
                     })
         }
     }, (e) => {
-        console.log(e);;
+        console.log(e);
     });
 
 });

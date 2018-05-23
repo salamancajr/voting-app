@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+const validator = require("validator");
 var Poll = mongoose.model("Poll", {
     question:{
         type:"string",
@@ -12,6 +13,7 @@ var Poll = mongoose.model("Poll", {
             required:true,
             minlength:5,
             trim:true
+
         },
         tally:{
             type:Array,

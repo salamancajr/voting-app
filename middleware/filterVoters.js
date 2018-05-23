@@ -3,7 +3,6 @@ const {Poll} = require("./../models/polls");
 
 
 var filterVoters = (req, res, next) => {
-    console.log('hello');
     
  try{   var id = req.user._id
     Poll.findOne({question: req.params.id}).then((poll)=>{

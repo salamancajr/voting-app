@@ -1,10 +1,12 @@
 require("./config/config")
 const express = require("express");
 const hbs = require("hbs");
+var session = require("express-session")
 var mongoose = require("mongoose");
 var bodyParser = require('body-parser');
 const {User} = require("./models/users");
 const cookieParser = require('cookie-parser');
+var flash = require('connect-flash');
 const port = process.env.PORT;
 var app = express();
 const authenticate = require("./middleware/authenticate")
@@ -19,7 +21,7 @@ const {allPollsRouter} = require("./routes/allPollsRouter");
 
 
 mongoose.connect(process.env.MONGODB_URI, (e) => {
-   // mongoose.connect("mongodb://localhost:27017/PollsApp", (e) => {   
+   //mongoose.connect("mongodb://localhost:27017/PollsApp", (e) => {   
          if (!e)
    ('Now connected to mongo server');
 
@@ -29,14 +31,7 @@ mongoose.connect(process.env.MONGODB_URI, (e) => {
 });
 
 hbs.registerPartials(__dirname + "/views/partials");
-
-hbs.registerHelper("helper", (text)=>{
-    console.log(text);
-    return text.replace(/\s/g, "%2520")
-    
-    
-    
-})
+ 
 app.set("view engine", "hbs");
 
 app.use(bodyParser.urlencoded({
@@ -50,7 +45,12 @@ app.use("/", loginRouter);
 app.use("/", newPollRouter);
 app.use("/", voteRouter);
 app.use("/", yourPollsRouter);
+app.use(session({ cookie: { maxAge: 60000 }, 
+    secret: 'woot',
+    resave: false, 
+    saveUninitialized: false}));
 
+app.use(flash());
 
 app.get("/", (req, res) => {
  
@@ -74,13 +74,22 @@ app.get("/", (req, res) => {
 });
 
 app.get("/signup", (req, res) => {
-    
+    var message =req.flash("eLogin")
+   
+ console.log(typeof message[0]);
+ 
+    if(typeof message[0]== "string")
+    {var error = message[0]; }
+ else{
+    var error = false;
+ }  
     res.render("project.hbs", {
-        paragraph: "Enter a user name and password",
+        paragraph: "Enter a user name and password (minimum six characters)",
         login: true,
         method: "post",
         action: "/signup",
-        home:true
+        home:true,
+        error
     })
 })
 
@@ -111,8 +120,9 @@ app.post("/signup", (req, res) => {
             pie: true,
             two: true
         })
-    }, (e) => {
-        console.log(e.message);
+    }).catch((e)=>{
+        req.flash("eLogin", "Email already registered.");
+        res.redirect("/signup");
     })
 
 })

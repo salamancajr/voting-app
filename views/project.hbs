@@ -35,6 +35,7 @@
         <br>
         <br>
         {{#if share}}{{>share}}{{/if}}
+        {{#if error}}{{error}}{{/if}}
 
 
     </div>
@@ -45,5 +46,8 @@
 </body>
 {{#unless home}}
 <a href="/logout"><i id="exit"class="fas fa-door-open"></i></a>
+
 {{/unless}}
+<a href="https://github.com/salamancajr/voting-app" target="_blank"><i id="github"class="fab fa-github"></i></a>
+
 </html>

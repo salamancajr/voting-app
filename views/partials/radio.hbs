@@ -9,7 +9,7 @@
     for (var i = 0; i < ans.length; i++) {
         var crad = document.createElement("p");
         crad.style = "margin:auto;text-align:left; width:90%"
-        crad.innerHTML = '<label><input class="with-gap" name="answer" value="'+i+'"type="radio" /><span>' + ans[i] +
+        crad.innerHTML = '<label><input class="with-gap" name="answer" value="'+i+'"type="radio" required/><span>' + ans[i] +
             '</span></label>';
         submit.insertAdjacentElement("beforebegin", crad);
     }

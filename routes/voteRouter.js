@@ -7,8 +7,8 @@ const {filterVoters} = require("./../middleware/filterVoters");
 
 
 voteRouter.get("/vote/:id", authenticate, filterVoters, (req, res) => {
-    sup2 = req.params.id.replace(/\s/g, "%20")
 
+    sup2 = req.params.id.replace(/\s/g, "%20");
  
     Poll.find({
         question: req.params.id
@@ -39,16 +39,23 @@ voteRouter.post("/vote/:id", authenticate, (req, res) => {
             voters: req.user._id
         }
     }).then((poll) => {
+ 
+ 
+            var button1= "Home",
+            button2= "See your polls",
+            link1= "/account",
+            link2= "/yourpolls"   
+ 
 
  
         var ans = poll.answers[0].answer;
         res.render("project.hbs", {
             paragraph: "Your vote was submitted!",
             two: true,
-            button1: "Home",
-            button2: "See your polls",
-            link1: "/account",
-            link2: "/yourpolls",
+            button1,
+            button2,
+            link1,
+            link2,
             pie:true,
             share:true,
             shareP:req.params.id
