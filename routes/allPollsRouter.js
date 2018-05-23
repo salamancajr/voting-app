@@ -52,8 +52,12 @@ allPollsRouter.get("/allpolls/:id", (req, res) => {
     Poll.findOne({
         question: req.params.id
     }).then((poll) => {
-
-
+        if(req.cookies["x-auth"]){
+            var home = false
+        }
+        else{
+            var home = true
+        }
         var num = poll.answers[0].tally
         var ans = poll.answers[0].answer
 
@@ -78,7 +82,7 @@ allPollsRouter.get("/allpolls/:id", (req, res) => {
                 share: true,
                 shareP: req.params.id,
                 site: sup,
-                home:true
+                home
             })
         } else {
 
@@ -95,7 +99,7 @@ allPollsRouter.get("/allpolls/:id", (req, res) => {
                 share: true,
                 shareP: req.params.id,
                 site: sup,
-                home:true
+                home
             })
         }
     }, (e) => {
