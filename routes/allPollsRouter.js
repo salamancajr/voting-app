@@ -77,7 +77,7 @@ allPollsRouter.get("/allpolls/:id", (req, res) => {
                 graph: true,
                 share: true,
                 shareP: req.params.id,
-                site: sup.replace(/\s/g, "%2520"),
+                site: req.params.id.replace(/\s/g, "%2520"),
                 home
             })
         } else {
@@ -94,7 +94,7 @@ allPollsRouter.get("/allpolls/:id", (req, res) => {
                 ans: ans,
                 share: true,
                 shareP: req.params.id,
-                site: sup.replace(/\s/g, "%2520"),
+                site: req.params.id.replace(/\s/g, "%2520"),
                 home
             })
         }

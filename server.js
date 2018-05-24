@@ -17,6 +17,7 @@ const {voteRouter} = require("./routes/voteRouter");
 const {editRouter} = require("./routes/editRouter");
 const {yourPollsRouter} = require("./routes/yourPollsRouter");
 const {allPollsRouter} = require("./routes/allPollsRouter");
+const {accountRouter} = require("./routes/accountRouter");
 
 mongoose.Promise = global.Promise;
 
@@ -45,10 +46,11 @@ app.use("/", loginRouter);
 app.use("/", newPollRouter);
 app.use("/", voteRouter);
 app.use("/", yourPollsRouter);
- 
+app.use("/", accountRouter);
+
 
 app.get("/", (req, res) => {
-
+ 
     if (req.cookies["x-auth"]) {
         res.redirect("/account")
     }
