@@ -1,7 +1,7 @@
 {
     "test":{
         "PORT": 3000,
-        "MONGODB_URI":"mongodb://localhost:27017/PollsApp",
+        "MONGODB_URI":"mongodb://localhost:27017/PollsAppTest",
         "JWT_SECRET": "huiuhiuferefe4353453uhi"
     },
     "development":{
