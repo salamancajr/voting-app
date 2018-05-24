@@ -50,7 +50,6 @@ app.use("/", accountRouter);
 
 
 app.get("/", (req, res) => {
-res.clearCookie("x-auth")
     if (req.cookies["x-auth"]) {
         res.redirect("/account")
     }
