@@ -1,7 +1,7 @@
 const {User} = require("./../models/users");
 const {Poll} = require("./../models/polls");
 
-
+ 
 var filterVoters = (req, res, next) => {
     
  try{   var id = req.user._id

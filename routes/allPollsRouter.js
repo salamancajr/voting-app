@@ -45,29 +45,25 @@ allPollsRouter.get("/allpolls", (req, res) => {
 })
 
 allPollsRouter.get("/allpolls/:id", (req, res) => {
-    var sup = req.params.id;
-    sup = sup.replace(/\s/g, "%2520")
-    sup2 = req.params.id.replace(/\s/g, "%20")
 
     Poll.findOne({
         question: req.params.id
     }).then((poll) => {
-        if(req.cookies["x-auth"]){
+        if (req.cookies["x-auth"]) {
             var home = false
-        }
-        else{
+        } else {
             var home = true
         }
         var num = poll.answers[0].tally
         var ans = poll.answers[0].answer
 
-        if(poll.voters.indexOf(req.headers["x-forwarded-for"])>-1){
-            var button2 =false,
-            link2=false
-            
-        }else{
-            var button2 ="Vote"
-            link2="/allpoll/"+encodeURI(req.params.id)
+        if (poll.voters.indexOf(req.headers["x-forwarded-for"]) > -1) {
+            var button2 = false,
+                link2 = false
+
+        } else {
+            var button2 = "Vote"
+            link2 = "/allpoll/" + encodeURI(req.params.id)
         }
 
         if (num.every(n => n == 0)) {
@@ -81,7 +77,7 @@ allPollsRouter.get("/allpolls/:id", (req, res) => {
                 graph: true,
                 share: true,
                 shareP: req.params.id,
-                site: sup,
+                site: sup.replace(/\s/g, "%2520"),
                 home
             })
         } else {
@@ -98,7 +94,7 @@ allPollsRouter.get("/allpolls/:id", (req, res) => {
                 ans: ans,
                 share: true,
                 shareP: req.params.id,
-                site: sup,
+                site: sup.replace(/\s/g, "%2520"),
                 home
             })
         }
@@ -139,17 +135,17 @@ allPollsRouter.post("/allpoll/:id", (req, res) => {
         $inc: {
             ["answers.0.tally." + req.body.answer]: +1
         },
-        $push:{
+        $push: {
             voters: req.headers["x-forwarded-for"]
         }
     }).then((poll) => {
 
- 
-            var button1= "Home",
-            button2= "See all polls",
-            link1= "/",
-            link2= "/allpolls"; 
-        
+
+        var button1 = "Home",
+            button2 = "See all polls",
+            link1 = "/",
+            link2 = "/allpolls";
+
         var ans = poll.answers[0].answer;
         res.render("project.hbs", {
             paragraph: "Your vote was submitted!",
@@ -158,15 +154,15 @@ allPollsRouter.post("/allpoll/:id", (req, res) => {
             button2,
             link1,
             link2,
-            pie:true,
-            share:true,
-            shareP:req.params.id,
-            home:true
+            pie: true,
+            share: true,
+            shareP: req.params.id,
+            home: true
         })
     })
-    }, (e) => {
-        console.log(e.message);
-    })
+}, (e) => {
+    console.log(e.message);
+})
 
 
 

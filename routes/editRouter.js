@@ -27,10 +27,15 @@ editRouter.get("/edit/:id", authenticate, (req, res) => {
 })
 
 editRouter.post("/edit/:id", authenticate, (req, res) => {
- 
-    Poll.findOneAndUpdate({question: req.params.id}, {$addToSet: {["answers.0.answer"]: req.body.answer}
+
+    Poll.findOneAndUpdate({
+        question: req.params.id
+    }, {
+        $addToSet: {
+            ["answers.0.answer"]: req.body.answer
+        }
     }).then((poll) => {
- 
+
 
         res.render("project.hbs", {
             paragraph: "Your edit was submitted!",
@@ -39,10 +44,10 @@ editRouter.post("/edit/:id", authenticate, (req, res) => {
             button2: "See your polls",
             link1: "/account",
             link2: "/yourpolls",
-            pie:true,
-            share:true,
-            shareP:req.params.id,
-            site:req.params.id.replace(/\s/g, "%2520")
+            pie: true,
+            share: true,
+            shareP: req.params.id,
+            site: req.params.id.replace(/\s/g, "%2520")
 
         })
     }, (e) => {
